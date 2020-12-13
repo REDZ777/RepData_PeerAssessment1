@@ -5,12 +5,9 @@ output:
     keep_md: true
 ---
 
-
 ## Loading and preprocessing the data
 unzip(zipfile="activity.zip")
 data <- read.csv("activity.csv")
-
-
 
 ## What is mean total number of steps taken per day?
 library(ggplot2)
@@ -19,13 +16,10 @@ qplot(total.steps, binwidth=1000, xlab="total number of steps taken each day")
 mean(total.steps, na.rm=TRUE)
 median(total.steps, na.rm=TRUE)
 
-
-
 ## What is the average daily activity pattern?
 library(ggplot2)
 averages <- aggregate(x=list(steps=data$steps), by=list(interval=data$interval),FUN=mean, na.rm=TRUE)
 ggplot(data=averages, aes(x=interval, y=steps)) + geom_line() + xlab("5-minute interval") +ylab("average number of steps taken")
-
 
 ## Imputing missing values
 missing <- is.na(data$steps)
