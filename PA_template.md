@@ -24,4 +24,7 @@ library(ggplot2)
 total.steps <- tapply(data$steps, data$date, FUN=sum, na.rm=TRUE)
 qplot(total.steps, binwidth=1000, xlab="total number of steps taken each day")
 
+![](figures/total_number_of_steps_taken_perday)
+
+
 
