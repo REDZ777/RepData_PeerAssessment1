@@ -16,9 +16,10 @@ The dataset is stored in a comma-separated-value (CSV) file and there are a tota
 
 ## Loading and preprocessing the data
 Unzip data to obtain a csv file.<br/>
-unzip(zipfile="activity.zip")<br/>
+```
+unzip(zipfile="activity.zip")
 data <- read.csv("activity.csv")
-
+````
 ## What is mean total number of steps taken per day?
 library(ggplot2)<br/>
 total.steps <- tapply(data$steps, data$date, FUN=sum, na.rm=TRUE)<br/>
