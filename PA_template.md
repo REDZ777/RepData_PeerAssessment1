@@ -40,7 +40,7 @@ averages[which.max(averages$steps),]<br/>
 
 # Imputing missing values
 There are missing valuse. The presence of missing days may introdue bisa into some calculations<br/>
-# Replace each missing value with the mean value of its 5-minute interval<br/>
+#Replace each missing value with the mean value of its 5-minute interval<br/>
 fill.value <- function(steps, interval) {<br/>
     filled <- NA<br/>
     if (!is.na(steps))<br/>
