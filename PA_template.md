@@ -54,8 +54,22 @@ filled.data$steps <- mapply(fill.value, filled.data$steps, filled.data$interval)
 total.steps <- tapply(filled.data$steps, filled.data$date, FUN=sum)
 qplot(total.steps, binwidth=1000, xlab="total number of steps taken each day")
 median(total.steps)
-## [1] 10760.21
+#10760.21
 mean(total.steps)
-## [1] 10760.21
+#10760.21
 
 ![](figures/steps_taken_each_day.png)
+
+# Are there differences in activity patterns between weekdays and weekends?
+weekday.or.weekend <- function(date) {<br/>
+    day <- weekdays(date)<br/>
+    if (day %in% c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday"))<br/>
+        return("weekday")<br/>
+    else if (day %in% c("Saturday", "Sunday"))<br/>
+        return("weekend")<br/>
+    else
+        stop("invalid date")<br/>
+}
+filled.data$date <- as.Date(filled.data$date)<br/>
+filled.data$day <- sapply(filled.data$date, FUN=weekday.or.weekend)<br/>
+![](figures/weekdays_weekends.png)
