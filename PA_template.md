@@ -21,27 +21,32 @@ unzip(zipfile="activity.zip")
 data <- read.csv("activity.csv")
 ````
 ## What is mean total number of steps taken per day?
-library(ggplot2)<br/>
-total.steps <- tapply(data$steps, data$date, FUN=sum, na.rm=TRUE)<br/>
-qplot(total.steps, binwidth=1000, xlab="total number of steps taken each day")<br/>
-median(total.steps, na.rm=TRUE) 1040 <br/>
-mean(total.steps, na.rm=TRUE) 9350<br/>
-
+```
+library(ggplot2)
+total.steps <- tapply(data$steps, data$date, FUN=sum, na.rm=TRUE)
+qplot(total.steps, binwidth=1000, xlab="total number of steps taken each day")
+median(total.steps, na.rm=TRUE) 1040 
+mean(total.steps, na.rm=TRUE) 9350
+```
 ![](figures/total_number_of_steps_taken_perday.png)
 
 # What is the average daily activity pattern?
-library(ggplot2)<br/>
-averages <- aggregate(x=list(steps=data$steps), by=list(interval=data$interval),FUN=mean, na.rm=TRUE)<br/>
-ggplot(data=averages, aes(x=interval, y=steps)) +geom_line(color="blue", size=1) +xlab("Interval") +ylab("Avg. Steps per day")<br/>
-averages[which.max(averages$steps),]<br/>
-  #max_interval<br/>
-       #835<br/>
+```
+library(ggplot2)
+averages <- aggregate(x=list(steps=data$steps), by=list(interval=data$interval),FUN=mean, na.rm=TRUE)
+ggplot(data=averages, aes(x=interval, y=steps)) +geom_line(color="blue", size=1) +xlab("Interval") +ylab("Avg. Steps per day")
+averages[which.max(averages$steps),]
+```
+#max_interval
+#835
+
 ![](figures/activity_pattern.png)
 
 
 # Imputing missing values
 There are missing valuse. The presence of missing days may introdue bisa into some calculations<br/>
 #Replace each missing value with the mean value of its 5-minute interval<br/>
+```
 fill.value <- function(steps, interval) {<br/>
     filled <- NA<br/>
     if (!is.na(steps))<br/>
@@ -54,23 +59,30 @@ filled.data <- data<br/>
 filled.data$steps <- mapply(fill.value, filled.data$steps, filled.data$interval)<br/>
 total.steps <- tapply(filled.data$steps, filled.data$date, FUN=sum)
 qplot(total.steps, binwidth=1000, xlab="total number of steps taken each day")
+```
+```
 median(total.steps)
+```
 #10760.21
+```
 mean(total.steps)
+```
 #10760.21
 
 ![](figures/steps_taken_each_day.png)
 
 # Are there differences in activity patterns between weekdays and weekends?
-weekday.or.weekend <- function(date) {<br/>
-    day <- weekdays(date)<br/>
-    if (day %in% c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday"))<br/>
-        return("weekday")<br/>
-    else if (day %in% c("Saturday", "Sunday"))<br/>
-        return("weekend")<br/>
+```
+weekday.or.weekend <- function(date) {
+    day <- weekdays(date)
+    if (day %in% c("Monday", "Tuesday", "Wednesday", "Thursday", "Friday"))
+        return("weekday")
+    else if (day %in% c("Saturday", "Sunday"))
+        return("weekend")
     else
-        stop("invalid date")<br/>
+        stop("invalid date")
 }
-filled.data$date <- as.Date(filled.data$date)<br/>
-filled.data$day <- sapply(filled.data$date, FUN=weekday.or.weekend)<br/>
+filled.data$date <- as.Date(filled.data$date)
+filled.data$day <- sapply(filled.data$date, FUN=weekday.or.weekend)
+```
 ![](figures/weekdays_weekends.png)
