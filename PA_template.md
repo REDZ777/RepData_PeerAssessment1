@@ -36,3 +36,26 @@ averages[which.max(averages$steps),]<br/>
   #max_interval<br/>
        #835<br/>
 ![](figures/activity_pattern.png)
+
+
+# Imputing missing values
+There are missing valuse. The presence of missing days may introdue bisa into some calculations<br/>
+# Replace each missing value with the mean value of its 5-minute interval<br/>
+fill.value <- function(steps, interval) {<br/>
+    filled <- NA<br/>
+    if (!is.na(steps))<br/>
+        filled <- c(steps)<br/>
+    else<br/>
+        filled <- (averages[averages$interval==interval, "steps"])<br/>
+    return(filled)<br/>
+}
+filled.data <- data<br/>
+filled.data$steps <- mapply(fill.value, filled.data$steps, filled.data$interval)<br/>
+total.steps <- tapply(filled.data$steps, filled.data$date, FUN=sum)
+qplot(total.steps, binwidth=1000, xlab="total number of steps taken each day")
+median(total.steps)
+## [1] 10760.21
+mean(total.steps)
+## [1] 10760.21
+
+![](figures/steps_taken_each_day.png)
