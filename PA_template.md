@@ -15,16 +15,24 @@ interval: Identifier for the 5-minute interval in which measurement was taken
 The dataset is stored in a comma-separated-value (CSV) file and there are a total of 17,568 observations in this dataset.
 
 ## Loading and preprocessing the data
-Unzip data to obtain a csv file.
-unzip(zipfile="activity.zip")
+Unzip data to obtain a csv file.<br/>
+unzip(zipfile="activity.zip")<br/>
 data <- read.csv("activity.csv")
 
 ## What is mean total number of steps taken per day?
-library(ggplot2)
-total.steps <- tapply(data$steps, data$date, FUN=sum, na.rm=TRUE)
-qplot(total.steps, binwidth=1000, xlab="total number of steps taken each day")
+library(ggplot2)<br/>
+total.steps <- tapply(data$steps, data$date, FUN=sum, na.rm=TRUE)<br/>
+qplot(total.steps, binwidth=1000, xlab="total number of steps taken each day")<br/>
+median(total.steps, na.rm=TRUE) 1040 <br/>
+mean(total.steps, na.rm=TRUE) 9350<br/>
 
-![](figures/total_number_of_steps_taken_perday)
+![](figures/total_number_of_steps_taken_perday.png)
 
-
-
+# What is the average daily activity pattern?
+library(ggplot2)<br/>
+averages <- aggregate(x=list(steps=data$steps), by=list(interval=data$interval),FUN=mean, na.rm=TRUE)<br/>
+ggplot(data=averages, aes(x=interval, y=steps)) +geom_line(color="blue", size=1) +xlab("Interval") +ylab("Avg. Steps per day")<br/>
+averages[which.max(averages$steps),]<br/>
+  #max_interval<br/>
+       #835<br/>
+![](figures/activity_pattern.png)
